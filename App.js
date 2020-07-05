@@ -6,15 +6,15 @@
  * @flow strict-local
  */
 
-import React from 'react';
-import Search from './Components/Search';
+import * as React from 'react';
+import Navigation from './Navigation/Navigation';
 
 
 
 class App extends React.Component{
   render(){
     return (
-      <Search/>
+      <Navigation/>
     )
   }    
 };
