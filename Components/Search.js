@@ -37,6 +37,11 @@ class Search extends React.Component {
         }
     }
 
+    _displayDetailForFilm = (idFilm) => {
+        console.log("Display film with id " + idFilm)
+        this.props.navigation.navigate("FilmDetail", {idFilm: idFilm})
+    }
+
     _searchedTextInputChanged(text){
         this.searchedText = text;
     }
@@ -52,14 +57,14 @@ class Search extends React.Component {
     }
 
     render(){
-        console.log(this.state.isLoading)
+        console.log(this.props)
         return (
             <View style={styles.main_container}>
                 <TextInput onSubmitEditing={() => this._searchFilms()} onChangeText={(text) => this._searchedTextInputChanged(text)} style={styles.textinput} placeholder="Titre du Film"/>
                 <Button style={{height:100}} title="Rechercher" onPress={() => this._searchFilms()} />
                 <FlatList
                     data={this.state.films}
-                    renderItem={({ item }) => <FilmItem film={item}/>}
+                    renderItem={({ item }) => <FilmItem film={item} displayDetailForFilm={this._displayDetailForFilm}/>}
                     keyExtractor={(item) => item.id.toString()}
                     onEndReachedThreshold={0.5}
                     onEndReached={() => {
@@ -77,7 +82,6 @@ class Search extends React.Component {
 
 const styles = StyleSheet.create({
     main_container: {
-        marginTop: 20,
         flex: 1,
     },
     textinput: {
