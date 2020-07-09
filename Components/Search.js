@@ -1,7 +1,8 @@
 import React from 'react';
 import {StyleSheet, View, Button, TextInput, FlatList, Text, ActivityIndicator} from 'react-native'
-import FilmItem from './FilmItem';
+import FilmList from './FilmList'
 import {getFilmsFromApiWithSearchedText} from '../API/TMDBApi';
+import {connect} from 'react-redux'
 
 class Search extends React.Component {
 
@@ -11,9 +12,15 @@ class Search extends React.Component {
         this.searchedText = "";
         this.page = 0;
         this.totalPages = 0;
+        //this._loadFilm = this._loadFilm.bind(this)
     }
 
-    _loadFilm(){
+    /**une fonction fleché utilise par defaut le binding
+     * ou bien on declare this._loadFilm = this._loadFilm.bind(this) dans le 
+     * constructeur pour binder la fonction.
+     * binder une fonction revient à la cibler partout dans notre application.
+     */
+    _loadFilm = () => {
         this.setState({isLoading: true})
         if(this.searchedText.length > 0 ){
             getFilmsFromApiWithSearchedText(this.searchedText, this.page+1).then(data => {
@@ -38,7 +45,6 @@ class Search extends React.Component {
     }
 
     _displayDetailForFilm = (idFilm) => {
-        console.log("Display film with id " + idFilm)
         this.props.navigation.navigate("FilmDetail", {idFilm: idFilm})
     }
 
@@ -57,21 +63,17 @@ class Search extends React.Component {
     }
 
     render(){
-        console.log(this.props)
         return (
             <View style={styles.main_container}>
                 <TextInput onSubmitEditing={() => this._searchFilms()} onChangeText={(text) => this._searchedTextInputChanged(text)} style={styles.textinput} placeholder="Titre du Film"/>
-                <Button style={{height:100}} title="Rechercher" onPress={() => this._searchFilms()} />
-                <FlatList
-                    data={this.state.films}
-                    renderItem={({ item }) => <FilmItem film={item} displayDetailForFilm={this._displayDetailForFilm}/>}
-                    keyExtractor={(item) => item.id.toString()}
-                    onEndReachedThreshold={0.5}
-                    onEndReached={() => {
-                        if(this.page < this.totalPages){
-                            this._loadFilm()
-                        }
-                    }}
+                <Button title="Rechercher" onPress={() => this._searchFilms()} />
+                <FilmList
+                    films={this.state.films}
+                    navigation={this.props.navigation}
+                    loadFilms={this._loadFilm}
+                    page={this.page}
+                    totalPages={this.totalPages}
+                    favoriteList={false}
                 />
                 {this._displayLoading()}
             </View>
@@ -103,4 +105,10 @@ const styles = StyleSheet.create({
     }
 
 })
-export default Search;
+
+const mapStateToProps = (state) => {
+    return {
+        favoritesFilm: state.favoritesFilm
+    }
+}
+export default connect(mapStateToProps)(Search);
