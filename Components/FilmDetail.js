@@ -10,15 +10,15 @@ class FilmDetail extends React.Component{
         super(props);
         this.state = {
             film: undefined,
-            isLoading: true
+            isLoading: false
         }
     }
 
     componentDidMount(){
-        const favoriteFilmindex = this.props.favoritesFilm.findIndex(item => item.id === this.props.route.params.idFilm)
-        if(favoriteFilmindex !== -1){
+        const favoriteFilmIndex = this.props.favoritesFilm.findIndex(item => item.id === this.props.route.params.idFilm)
+        if(favoriteFilmIndex !== -1){
             this.setState({
-                film: this.props.favoritesFilm[favoriteFilmindex]
+                film: this.props.favoritesFilm[favoriteFilmIndex]
             })
             return
         }
@@ -34,10 +34,7 @@ class FilmDetail extends React.Component{
         })
     }
 
-    componentDidUpdate(){
-        console.log(this.props.favoritesFilm);
-        
-    }
+
 
     _toggleFavorite(){
         const action = {type: 'TOGGLE_FAVORITE', value: this.state.film}
@@ -100,8 +97,8 @@ class FilmDetail extends React.Component{
         
         return(
             <View style={styles.main_container}>
-                {this._displayFilm()}
                {this._displayLoading()}
+                {this._displayFilm()}
             </View>
         )
     }
