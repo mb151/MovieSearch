@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Search from '../Components/Search';
 import FilmDetail from '../Components/FilmDetail';
 import Favorites from '../Components/Favorites'
+import Test from '../Components/Test'
 
 const SearchStackNavigator = createStackNavigator()
 const TabBottomNavigator = createBottomTabNavigator();
@@ -19,6 +20,7 @@ function Navigation() {
             activeBackgroundColor: '#DDDDDD',
             inactiveBackgroundColor: '#FFFFFF'
           }}>
+                {/* <TabBottomNavigator.Screen name="Test" component={Test}/> */}
                 <TabBottomNavigator.Screen  options={{
                     tabBarIcon: props =>( <Image source={require('../Images/search.png')} style={styles.icon}/>)}} name="Rechercher" component={NavigationStack}/>
                 <TabBottomNavigator.Screen  options={{
