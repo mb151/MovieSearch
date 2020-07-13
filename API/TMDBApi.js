@@ -17,3 +17,7 @@ export function getFilmDetailFromApi(id){
     .then((response) => response.json())
     .catch((error) => console.log(error))
 }
+
+// export function getTrailerFromApi(id){
+//     return 'https://api.themoviedb.org/3/movie/533ec651c3a368544800000b/videos?api_key=eaf0b40a4f2cbab2f47f46c93b6ed1e0&language=en-US'
+// }

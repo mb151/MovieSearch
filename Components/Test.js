@@ -1,12 +1,30 @@
 import React from 'react'
-import {StyleSheet, View, Platform} from 'react-native'
+import {StyleSheet, View, Platform, Animated} from 'react-native'
 
 class Test extends React.Component {
 
+    constructor(props){
+        super(props)
+        this.state = {
+            topPosition: new Animated.Value(0)
+        }
+    }
+    
+    componentDidMount(){
+        Animated.spring(
+            this.state.topPosition,
+            {
+                toValue: 100,
+                speed: 4,
+                bounciness: 30,
+                useNativeDriver: false
+            }
+        ).start()
+    }
     render(){
         return(
             <View style={styles.main_container}>
-                <View style={styles.subview_container}></View>
+                <Animated.View style={[styles.animation_view, {top: this.state.topPosition}]}></Animated.View>
             </View>
         )
     }
@@ -18,10 +36,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    subview_container: {
-        backgroundColor: Platform.OS === 'ios' ? 'red' : 'blue',
-        height: 50,
-        width: 50
+    animation_view: {
+        backgroundColor: 'red',
+        height: 100,
+        width: 100
     }
 })
 

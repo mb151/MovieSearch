@@ -14,7 +14,7 @@ const TabBottomNavigator = createBottomTabNavigator();
 function Navigation() {
     return(
         <NavigationContainer>
-            <TabBottomNavigator.Navigator tabBarOptions={{
+            <TabBottomNavigator.Navigator  tabBarOptions={{
             showLabel: false,
             showIcon: true,
             activeBackgroundColor: '#DDDDDD',

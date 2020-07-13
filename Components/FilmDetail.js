@@ -1,9 +1,10 @@
 import React from 'react';
 import {StyleSheet, View, Button, Share, Image, Text, ActivityIndicator, ScrollView, TouchableOpacity, Platform} from 'react-native'
-import {getFilmDetailFromApi, getImageFromApi} from '../API/TMDBApi';
+import {getFilmDetailFromApi, getImageFromApi, getTrailerFromApi} from '../API/TMDBApi';
 import moment from 'moment'
 import numeral from 'numeral'
 import {connect} from 'react-redux'
+import ElargeShrink  from '../Animation/ElargeShrink'
 
 class FilmDetail extends React.Component{
 
@@ -63,13 +64,17 @@ class FilmDetail extends React.Component{
 
     _displayFavoriteImage(){
         var sourceImage = require('../Images/outFavoris.png')
+        var shouldEnlarge = false
         if(this.props.favoritesFilm.findIndex(item => item.id === this.state.film.id) !== -1){
             sourceImage = require('../Images/inFavoris.png')
+            shouldEnlarge = true
         }
         return(
-            <Image
-            source={sourceImage}
-            style={styles.favorite_image}/>
+            <ElargeShrink shouldEnlarge={shouldEnlarge}>
+                <Image
+                    source={sourceImage}
+                    style={styles.favorite_image}/>
+            </ElargeShrink>
         )
     }
 
@@ -173,8 +178,9 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     favorite_image: {
-        width: 40,
-        height: 40
+        flex: 1,
+        width: null,
+        height: null
     },
     share_touchable_floatingactionbutton: {
         position: 'absolute',
@@ -195,7 +201,7 @@ const styles = StyleSheet.create({
   
   const mapStateToProps = (state) => {
       return {
-          favoritesFilm: state.favoritesFilm
+          favoritesFilm: state.toggleFavorite.favoritesFilm
       }
   }
 
