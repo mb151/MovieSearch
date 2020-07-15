@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, Button, TextInput, FlatList, Text, ActivityIndicator} from 'react-native'
+import {StyleSheet, View, Button, TextInput, TouchableOpacity, Text, ActivityIndicator} from 'react-native'
 import FilmList from './FilmList'
 import {getFilmsFromApiWithSearchedText} from '../API/TMDBApi';
 import {connect} from 'react-redux'
@@ -63,10 +63,14 @@ class Search extends React.Component {
     }
 
     render(){
+        console.log('TEST');
         return (
             <View style={styles.main_container}>
                 <TextInput onSubmitEditing={() => this._searchFilms()} onChangeText={(text) => this._searchedTextInputChanged(text)} style={styles.textinput} placeholder="Titre du Film"/>
-                <Button title="Rechercher" onPress={() => this._searchFilms()} />
+                <TouchableOpacity onPress={() => this._searchFilms()} style={styles.button} 
+                    style={styles.appButtonContainer}>
+                        <Text style={styles.appButtonText}>Rechercher</Text>
+                </TouchableOpacity>
                 <FilmList
                     films={this.state.films}
                     navigation={this.props.navigation}
@@ -102,8 +106,19 @@ const styles = StyleSheet.create({
         top: 100,
         alignItems: 'center',
         justifyContent: 'center'
-    }
-
+    },
+    appButtonContainer: {
+        elevation: 8,
+        backgroundColor: "#2871cc",
+        paddingVertical: 10,
+        paddingHorizontal: 12,
+      },
+      appButtonText: {
+        fontSize: 15,
+        color: "#fff",
+        alignSelf: "center",
+        textTransform: "uppercase"
+      },
 })
 
 const mapStateToProps = (state) => {

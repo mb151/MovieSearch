@@ -14,6 +14,8 @@ class FilmDetail extends React.Component{
             film: undefined,
             isLoading: false
         }
+        this._toggleFavorite = this._toggleFavorite.bind(this)
+        this._shareFilm = this._shareFilm.bind(this)
     }
 
     componentDidMount(){
@@ -62,6 +64,11 @@ class FilmDetail extends React.Component{
         this.props.dispatch(action)
     }
 
+    _toggleSeen() {
+        const action = { type: "TOGGLE_SEEN", value: this.state.film }
+        this.props.dispatch(action)
+      }
+
     _displayFavoriteImage(){
         var sourceImage = require('../Images/outFavoris.png')
         var shouldEnlarge = false
@@ -77,6 +84,22 @@ class FilmDetail extends React.Component{
             </ElargeShrink>
         )
     }
+
+    _displaySeenButton() {
+        const SeenFilmIndex = this.props.seenFilms.findIndex(item => item.id === this.props.route.params.idFilm)
+        if (SeenFilmIndex !== -1) {
+          return (
+            <Button
+              title='Non vu'
+              onPress={() => this._toggleSeen()}/>
+          )
+        }
+        return (
+          <Button
+            title='Marquer comme vu'
+            onPress={() => this._toggleSeen()}/>
+        )
+      }
 
     _displayFilm(){
         const film = this.state.film
@@ -100,7 +123,9 @@ class FilmDetail extends React.Component{
                     }).join(" / ")}</Text>
                     <Text style={styles.default_text}>Companies(s) : {film.production_companies.map(function(company){
                         return company.name;
-                    }).join(" / ")}</Text>
+                    }).join(" / ")}
+                    </Text>
+                    {this._displaySeenButton()}
                 </ScrollView>
             )
         }
@@ -118,8 +143,7 @@ class FilmDetail extends React.Component{
     }
     
     render(){
-        console.log(this.props);
-        
+        console.log(this.props.favoritesFilm);
         return(
             <View style={styles.main_container}>
                {this._displayLoading()}
@@ -201,7 +225,8 @@ const styles = StyleSheet.create({
   
   const mapStateToProps = (state) => {
       return {
-          favoritesFilm: state.toggleFavorite.favoritesFilm
+          favoritesFilm: state.toggleFavorite.favoritesFilm,
+          seenFilms: state.toggleSeen.seenFilms
       }
   }
 

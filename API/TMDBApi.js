@@ -21,3 +21,10 @@ export function getFilmDetailFromApi(id){
 // export function getTrailerFromApi(id){
 //     return 'https://api.themoviedb.org/3/movie/533ec651c3a368544800000b/videos?api_key=eaf0b40a4f2cbab2f47f46c93b6ed1e0&language=en-US'
 // }
+
+export function getBestFilmsFromApi(page){
+    const url = 'https://api.themoviedb.org/3/discover/movie?api_key=' + API_TOKEN.API_KEY + '&vote_count.gte=1000&sort_by=release_date.desc&language=fr&page=' + page
+    return fetch(url)
+        .then((response) => response.json())
+        .catch((error) => console.error(error));
+}
