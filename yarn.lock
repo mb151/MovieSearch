@@ -1053,9 +1053,9 @@
   integrity sha512-zGD0h+Ay8Rk8p+2wG41V163am8HfKkoZsVDKYkEKYD8O019if893pZyQ2sDcgk2ppNILrCt9O264dPDe/Ly1ow==
   dependencies:
     chalk "^3.0.0"
-    lodash "^4.17.15"
+    lodash "4.17.19"
     mime "^2.4.1"
-    node-fetch "^2.6.0"
+    node-fetch "2.6.1"
     open "^6.2.0"
     shell-quote "1.6.1"
 
